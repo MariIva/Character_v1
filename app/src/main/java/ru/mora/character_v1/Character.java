@@ -8,12 +8,7 @@ public class Character implements Serializable {
     int age;
     String sex;
     String race;
-    int str;
-    int dex;
-    int con;
-    int intl;
-    int wis;
-    int charm;
+    Feature feature;
 
     public Character(String img_uri, String name, int age, String sex, String race, int str,
                      int dex, int con, int intl, int wis, int charm) {
@@ -22,13 +17,25 @@ public class Character implements Serializable {
         this.age = age;
         this.sex = sex;
         this.race = race;
-        this.str = str;
-        this.dex = dex;
-        this.con = con;
-        this.intl = intl;
-        this.wis = wis;
-        this.charm = charm;
+        feature = new Feature(str, dex, con, intl, wis, charm);
     }
 
+    class Feature  implements Serializable{
+        int str;
+        int dex;
+        int con;
+        int intl;
+        int wis;
+        int charm;
+
+        public Feature(int str, int dex, int con, int intl, int wis, int charm) {
+            this.str = str;
+            this.dex = dex;
+            this.con = con;
+            this.intl = intl;
+            this.wis = wis;
+            this.charm = charm;
+        }
+    }
 
 }
