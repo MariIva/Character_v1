@@ -37,5 +37,4 @@ public class Character implements Serializable {
             this.charm = charm;
         }
     }
-
 }

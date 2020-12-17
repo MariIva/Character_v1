@@ -96,20 +96,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     // загрузка списка персонажей
-    public void loadCharacter() {
-        try {
-            FileInputStream stream = new FileInputStream(path);
-            if (stream.available()>0) {
-                ObjectInputStream ois = new ObjectInputStream(stream);
-                characters = (ArrayList<Character>) ois.readObject();
-                ois.close();
-            }
-        } catch (Exception e) {
-            ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.main_layout);
-            //создаем Snackbar
-            Snackbar snackbar = Snackbar.make(layout, "Ошибка чтения файла", Snackbar.LENGTH_LONG);
-            // показываем Snackbar
-            snackbar.show();
+    public void loadCharacter() throws IOException, ClassNotFoundException {
+        // создаем описание файла
+        File f = new File(path);
+        // если файла не существует, то создаем его
+        if (!f.exists()) {
+            f.createNewFile();
+        }
+        FileInputStream stream = new FileInputStream(path);
+        if (stream.available()>0) {
+            ObjectInputStream ois = new ObjectInputStream(stream);
+            characters = (ArrayList<Character>) ois.readObject();
+            ois.close();
         }
     }
 
@@ -122,20 +120,15 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             try {
-                // создаем описание файла по пути path
-                File f = new File(path);
-                // если файла не сущнствует, то создаем его
-                if (!f.exists()) {
-                    f.createNewFile();
-                }
-            } catch (IOException ex) {
+                // считываем список персонажей из файла
+                loadCharacter();
+            } catch (IOException | ClassNotFoundException ex) {
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.main_layout);
                 //создаем Snackbar
-                Snackbar snackbar = Snackbar.make(layout, "Ошибка создания файла", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(layout, "Ошибка чтения файла", Snackbar.LENGTH_LONG);
                 // показываем Snackbar
                 snackbar.show();
             }
-            loadCharacter();
         }
     }
 
